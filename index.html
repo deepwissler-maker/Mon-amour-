@@ -6,253 +6,380 @@
   <title>Pour Toi ❤️</title>
   <style>
     :root {
-      --bg-color: #0f051d;
-      --card-bg: #1c0b36;
-      --accent: #ff4081;
-      --text: #ffffff;
+      --primary-pink: #ff758c;
+      --soft-pink: #ff7eb3;
+      --gradient-bg: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #feada6 100%);
+      --glass-bg: rgba(255, 255, 255, 0.85);
+      --text-color: #4a2e35;
+      --accent-color: #d81b60;
     }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
+
     body {
-      background: radial-gradient(circle at center, #2a0845 0%, #0f051d 100%);
-      color: var(--text);
+      background: var(--gradient-bg);
+      color: var(--text-color);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       overflow-x: hidden;
-      padding: 20px;
+      padding: 20px 15px;
     }
-    .background-animations {
+
+    /* Pluie d'animations */
+    .floating-elements {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
       pointer-events: none;
-      z-index: 0;
+      z-index: 1;
       overflow: hidden;
     }
-    .petal {
+
+    .element {
       position: absolute;
-      background-size: contain;
-      background-repeat: no-repeat;
-      animation: fall linear infinite;
+      animation: floatUp linear infinite;
+      user-select: none;
     }
-    @keyframes fall {
+
+    @keyframes floatUp {
       0% {
-        transform: translateY(-10vh) rotate(0deg);
-        opacity: 1;
+        transform: translateY(105vh) scale(0.5) rotate(0deg);
+        opacity: 0;
       }
+      20% { opacity: 0.9; }
+      80% { opacity: 0.9; }
       100% {
-        transform: translateY(105vh) rotate(360deg);
+        transform: translateY(-10vh) scale(1.2) rotate(360deg);
         opacity: 0;
       }
     }
-    .music-btn {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 100;
-      background: rgba(255, 64, 129, 0.2);
-      border: 1px solid var(--accent);
-      color: white;
-      padding: 10px 15px;
-      border-radius: 20px;
-      backdrop-filter: blur(5px);
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
-    .container {
+
+    /* Conteneur principal */
+    .main-card {
       position: relative;
       z-index: 10;
       width: 100%;
-      max-width: 450px;
+      max-width: 420px;
+      background: var(--glass-bg);
+      border-radius: 28px;
+      padding: 25px 20px;
+      box-shadow: 0 15px 35px rgba(232, 85, 120, 0.25);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.6);
       text-align: center;
     }
-    .envelope-wrapper {
-      background: rgba(28, 11, 54, 0.85);
-      border: 1px solid rgba(255, 64, 129, 0.3);
+
+    .music-toggle {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--primary-pink);
+      color: var(--accent-color);
+      padding: 8px 16px;
       border-radius: 20px;
-      padding: 30px 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      backdrop-filter: blur(10px);
+      font-weight: bold;
+      font-size: 0.85rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
-    h1 {
-      color: var(--accent);
-      font-size: 1.8rem;
+
+    /* Animation Enveloppe */
+    .envelope-box {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 2px dashed var(--primary-pink);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .envelope-box:active {
+      transform: scale(0.98);
+    }
+
+    .envelope-icon {
+      font-size: 3.5rem;
+      margin-bottom: 5px;
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .letter-content {
+      display: none;
+      text-align: left;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #333;
+      animation: fadeIn 0.8s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Carte surprise supplémentaire */
+    .sweet-surprise-btn {
+      display: none;
+      width: 100%;
+      background: linear-gradient(45deg, #ff758c, #ff7eb3);
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 18px;
+      font-weight: bold;
+      font-size: 1rem;
+      margin: 15px 0;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(255, 117, 140, 0.4);
+      animation: fadeIn 0.8s ease forwards;
+    }
+
+    .sweet-card {
+      display: none;
+      background: #fff5f7;
+      border-radius: 16px;
+      padding: 15px;
+      margin-bottom: 20px;
+      border: 1px solid #ffccd5;
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    .sweet-card ul {
+      list-style: none;
+      text-align: left;
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    .sweet-card li {
+      margin-bottom: 6px;
+    }
+
+    /* Question Finale */
+    .proposal-section {
+      display: none;
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 2px solid #ffe6eb;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    .proposal-title {
+      font-size: 1.25rem;
+      color: var(--accent-color);
+      font-weight: bold;
       margin-bottom: 20px;
     }
-    .letter-text {
-      font-size: 1.1rem;
-      line-height: 1.6;
-      color: #f3e5f5;
-      text-align: left;
-      margin-bottom: 25px;
-      background: rgba(0, 0, 0, 0.2);
-      padding: 20px;
-      border-radius: 12px;
-      border-left: 3px solid var(--accent);
-    }
-    .question {
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #ffffff;
-      margin-bottom: 25px;
-    }
-    .buttons-container {
+
+    .actions {
       display: flex;
       justify-content: center;
       gap: 15px;
       position: relative;
-      min-height: 60px;
+      min-height: 55px;
     }
-    .btn {
-      padding: 12px 25px;
-      border: none;
+
+    .btn-action {
+      padding: 12px 28px;
       border-radius: 25px;
-      font-size: 1.1rem;
+      border: none;
+      font-size: 1.05rem;
       font-weight: bold;
       cursor: pointer;
-      transition: all 0.3s ease;
     }
+
     .btn-yes {
-      background: var(--accent);
+      background: var(--accent-color);
       color: white;
-      box-shadow: 0 4px 15px rgba(255, 64, 129, 0.4);
+      box-shadow: 0 5px 18px rgba(216, 27, 96, 0.4);
     }
+
     .btn-no {
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
+      background: #e0e0e0;
+      color: #666;
       position: absolute;
-      right: 20px;
+      right: 10px;
     }
-    .celebration {
+
+    /* Écran de Victoire */
+    .win-screen {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(15, 5, 29, 0.95);
-      z-index: 200;
+      background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+      z-index: 300;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      color: white;
       text-align: center;
+      padding: 20px;
     }
-    .celebration h2 {
-      font-size: 2rem;
-      color: var(--accent);
+
+    .win-screen h2 {
+      font-size: 2.2rem;
       margin-bottom: 15px;
     }
-    .celebration p {
-      font-size: 1.2rem;
-      color: white;
+
+    .win-screen p {
+      font-size: 1.3rem;
+      max-width: 350px;
     }
   </style>
 </head>
 <body>
 
-  <button class="music-btn" id="musicToggle">🎵 Musique</button>
+  <button class="music-toggle" id="musicBtn">🎵 Musique</button>
+  <div class="floating-elements" id="floatContainer"></div>
 
-  <div class="background-animations" id="bgAnim"></div>
+  <div class="main-card">
+    
+    <!-- Étape 1 : L'enveloppe -->
+    <div class="envelope-box" id="envelopeBtn">
+      <div class="envelope-icon">💌</div>
+      <p style="font-weight: bold; color: var(--accent-color);">Touche pour ouvrir ton mot doux</p>
+    </div>
 
-  <div class="container">
-    <div class="envelope-wrapper">
-      <h1>Pour Toi ❤️</h1>
-      
-      <div class="letter-text">
+    <!-- Étape 2 : Le texte de la lettre -->
+    <div class="letter-content" id="letterText">
+      <p>
         Depuis qu'on se parle, mes journées ont une couleur différente. Un rien me fait sourire quand je pense à toi, et j'ai remarqué que je garde les petites choses drôles ou belles de ma journée juste pour te les raconter.
-        <br><br>
-        Je ne sais pas trop comment le dire simplement, alors je le dis comme ça : tu comptes déjà beaucoup pour moi, et j'aimerais voir jusqu'où ça peut aller, à ton rythme et avec toi.
-      </div>
+      </p>
+      <br>
+      <p>
+        Je ne sais pas trop comment le dire simplement, alors je le dis comme ça : tu comptes déjà beaucoup pour moi, et j'aimerais voir jusqu'où ça peut aller, à ton rythme et avec toi. ✨
+      </p>
+    </div>
 
-      <div class="question">
-        Est-ce que tu aimerais qu'on continue cette aventure ensemble ? ✨
-      </div>
+    <!-- Étape 3 : Bouton Mignon Supplémentaire -->
+    <button class="sweet-surprise-btn" id="surpriseBtn">🎁 Clique ici pour un petit truc en plus...</button>
 
-      <div class="buttons-container">
-        <button class="btn btn-yes" id="yesBtn">Oui ! ❤️</button>
-        <button class="btn btn-no" id="noBtn">Non</button>
+    <div class="sweet-card" id="sweetCard">
+      <ul>
+        <li>✨ <b>Ce que j'adore chez toi :</b> Ton sourire et ta façon d'être unique.</li>
+        <li>🌸 <b>Ma petite promesse :</b> Être toujours là pour te faire rire et t'écouter.</li>
+        <li>💖 <b>Mon souhait :</b> Créer plein de beaux souvenirs ensemble.</li>
+      </ul>
+    </div>
+
+    <!-- Étape 4 : La demande officielle -->
+    <div class="proposal-section" id="proposalSection">
+      <div class="proposal-title">Veux-tu être ma petite amie ? 🌹</div>
+      <div class="actions">
+        <button class="btn-action btn-yes" id="yesBtn">Oui ! ❤️</button>
+        <button class="btn-action btn-no" id="noBtn">Non</button>
       </div>
     </div>
+
   </div>
 
-  <div class="celebration" id="celebration">
-    <h2>C'est le début d'une belle histoire ! 🎉❤️</h2>
-    <p>Merci d'être là, j'ai vraiment hâte de vivre la suite avec toi.</p>
+  <div class="win-screen" id="winScreen">
+    <h2>C'est officiel ! 🎉❤️</h2>
+    <p>Tu viens de me rendre la personne la plus heureuse. Hâte de vivre tous ces beaux moments avec toi ! ✨</p>
   </div>
 
   <script>
-    const bgAnim = document.getElementById('bgAnim');
-    const symbols = ['🌸', '🌹', '💖', '✨', '💕'];
-    
-    function createParticle() {
-      const particle = document.createElement('div');
-      particle.className = 'petal';
-      particle.innerText = symbols[Math.floor(Math.random() * symbols.length)];
-      particle.style.left = Math.random() * 100 + 'vw';
-      particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
-      particle.style.fontSize = (Math.random() * 15 + 15) + 'px';
-      bgAnim.appendChild(particle);
+    // Pluie de fleurs et cœurs
+    const container = document.getElementById('floatContainer');
+    const items = ['🌸', '💖', '🌹', '✨', '💕', '🌷', '🌺'];
 
-      setTimeout(() => { particle.remove(); }, 6000);
+    function createFloatingItem() {
+      const el = document.createElement('div');
+      el.className = 'element';
+      el.innerText = items[Math.floor(Math.random() * items.length)];
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.animationDuration = (Math.random() * 3 + 4) + 's';
+      el.style.fontSize = (Math.random() * 16 + 18) + 'px';
+      container.appendChild(el);
+
+      setTimeout(() => { el.remove(); }, 7000);
     }
-    setInterval(createParticle, 300);
+    setInterval(createFloatingItem, 250);
 
-    const noBtn = document.getElementById('noBtn');
-    function moveNoBtn() {
-      const x = Math.random() * (window.innerWidth - 100) - (window.innerWidth / 2 - 50);
-      const y = Math.random() * (window.innerHeight - 100) - (window.innerHeight / 2 - 50);
-      noBtn.style.transform = `translate(${x}px, ${y}px)`;
-    }
-    noBtn.addEventListener('touchstart', moveNoBtn);
-    noBtn.addEventListener('mouseover', moveNoBtn);
+    // Déroulement interactif
+    const envelopeBtn = document.getElementById('envelopeBtn');
+    const letterText = document.getElementById('letterText');
+    const surpriseBtn = document.getElementById('surpriseBtn');
+    const sweetCard = document.getElementById('sweetCard');
+    const proposalSection = document.getElementById('proposalSection');
 
-    const yesBtn = document.getElementById('yesBtn');
-    const celebration = document.getElementById('celebration');
-    yesBtn.addEventListener('click', () => {
-      celebration.style.display = 'flex';
+    envelopeBtn.addEventListener('click', () => {
+      envelopeBtn.style.display = 'none';
+      letterText.style.display = 'block';
+      surpriseBtn.style.display = 'block';
     });
 
+    surpriseBtn.addEventListener('click', () => {
+      surpriseBtn.style.display = 'none';
+      sweetCard.style.display = 'block';
+      proposalSection.style.display = 'block';
+    });
+
+    // Bouton Non qui s'échappe
+    const noBtn = document.getElementById('noBtn');
+    function moveNo() {
+      const x = Math.random() * 160 - 80;
+      const y = Math.random() * 120 - 60;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    }
+    noBtn.addEventListener('touchstart', moveNo);
+    noBtn.addEventListener('mouseover', moveNo);
+
+    // Bouton Oui
+    const yesBtn = document.getElementById('yesBtn');
+    const winScreen = document.getElementById('winScreen');
+    yesBtn.addEventListener('click', () => {
+      winScreen.style.display = 'flex';
+    });
+
+    // Musique douce intégrée
     let audioCtx = null;
     let isPlaying = false;
-    const musicBtn = document.getElementById('musicToggle');
+    const musicBtn = document.getElementById('musicBtn');
 
     musicBtn.addEventListener('click', () => {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       if (!isPlaying) {
         isPlaying = true;
         musicBtn.innerText = '🔊 Musique active';
-        playMelody();
+        playRomanticNotes();
       }
     });
 
-    function playMelody() {
+    function playRomanticNotes() {
       if (!isPlaying) return;
-      const notes = [261.63, 329.63, 392.00, 523.25, 440.00, 349.23];
+      const notes = [261.63, 329.63, 392.00, 523.25, 440.00, 349.23, 392.00];
       const note = notes[Math.floor(Math.random() * notes.length)];
       
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
       osc.type = 'sine';
       osc.frequency.setValueAtTime(note, audioCtx.currentTime);
-      gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.5);
+      gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.8);
       
       osc.connect(gain);
       gain.connect(audioCtx.destination);
-      
       osc.start();
-      osc.stop(audioCtx.currentTime + 1.5);
+      osc.stop(audioCtx.currentTime + 1.8);
       
-      setTimeout(playMelody, 800);
+      setTimeout(playRomanticNotes, 700);
     }
   </script>
 </body>
