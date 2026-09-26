@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pour Toi ❤️</title>
+  <style>
+    :root {
+      --bg-color: #0f051d;
+      --card-bg: #1c0b36;
+      --accent: #ff4081;
+      --text: #ffffff;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: radial-gradient(circle at center, #2a0845 0%, #0f051d 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+    .background-animations {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .petal {
+      position: absolute;
+      background-size: contain;
+      background-repeat: no-repeat;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      0% {
+        transform: translateY(-10vh) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(105vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    .music-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 100;
+      background: rgba(255, 64, 129, 0.2);
+      border: 1px solid var(--accent);
+      color: white;
+      padding: 10px 15px;
+      border-radius: 20px;
+      backdrop-filter: blur(5px);
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 450px;
+      text-align: center;
+    }
+    .envelope-wrapper {
+      background: rgba(28, 11, 54, 0.85);
+      border: 1px solid rgba(255, 64, 129, 0.3);
+      border-radius: 20px;
+      padding: 30px 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      backdrop-filter: blur(10px);
+    }
+    h1 {
+      color: var(--accent);
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+    .letter-text {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #f3e5f5;
+      text-align: left;
+      margin-bottom: 25px;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      border-radius: 12px;
+      border-left: 3px solid var(--accent);
+    }
+    .question {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #ffffff;
+      margin-bottom: 25px;
+    }
+    .buttons-container {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      position: relative;
+      min-height: 60px;
+    }
+    .btn {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 25px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .btn-yes {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 4px 15px rgba(255, 64, 129, 0.4);
+    }
+    .btn-no {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      position: absolute;
+      right: 20px;
+    }
+    .celebration {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 5, 29, 0.95);
+      z-index: 200;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+    }
+    .celebration h2 {
+      font-size: 2rem;
+      color: var(--accent);
+      margin-bottom: 15px;
+    }
+    .celebration p {
+      font-size: 1.2rem;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <button class="music-btn" id="musicToggle">🎵 Musique</button>
+
+  <div class="background-animations" id="bgAnim"></div>
+
+  <div class="container">
+    <div class="envelope-wrapper">
+      <h1>Pour Toi ❤️</h1>
+      
+      <div class="letter-text">
+        Depuis qu'on se parle, mes journées ont une couleur différente. Un rien me fait sourire quand je pense à toi, et j'ai remarqué que je garde les petites choses drôles ou belles de ma journée juste pour te les raconter.
+        <br><br>
+        Je ne sais pas trop comment le dire simplement, alors je le dis comme ça : tu comptes déjà beaucoup pour moi, et j'aimerais voir jusqu'où ça peut aller, à ton rythme et avec toi.
+      </div>
+
+      <div class="question">
+        Est-ce que tu aimerais qu'on continue cette aventure ensemble ? ✨
+      </div>
+
+      <div class="buttons-container">
+        <button class="btn btn-yes" id="yesBtn">Oui ! ❤️</button>
+        <button class="btn btn-no" id="noBtn">Non</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="celebration" id="celebration">
+    <h2>C'est le début d'une belle histoire ! 🎉❤️</h2>
+    <p>Merci d'être là, j'ai vraiment hâte de vivre la suite avec toi.</p>
+  </div>
+
+  <script>
+    const bgAnim = document.getElementById('bgAnim');
+    const symbols = ['🌸', '🌹', '💖', '✨', '💕'];
+    
+    function createParticle() {
+      const particle = document.createElement('div');
+      particle.className = 'petal';
+      particle.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+      particle.style.left = Math.random() * 100 + 'vw';
+      particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+      particle.style.fontSize = (Math.random() * 15 + 15) + 'px';
+      bgAnim.appendChild(particle);
+
+      setTimeout(() => { particle.remove(); }, 6000);
+    }
+    setInterval(createParticle, 300);
+
+    const noBtn = document.getElementById('noBtn');
+    function moveNoBtn() {
+      const x = Math.random() * (window.innerWidth - 100) - (window.innerWidth / 2 - 50);
+      const y = Math.random() * (window.innerHeight - 100) - (window.innerHeight / 2 - 50);
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    }
+    noBtn.addEventListener('touchstart', moveNoBtn);
+    noBtn.addEventListener('mouseover', moveNoBtn);
+
+    const yesBtn = document.getElementById('yesBtn');
+    const celebration = document.getElementById('celebration');
+    yesBtn.addEventListener('click', () => {
+      celebration.style.display = 'flex';
+    });
+
+    let audioCtx = null;
+    let isPlaying = false;
+    const musicBtn = document.getElementById('musicToggle');
+
+    musicBtn.addEventListener('click', () => {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (!isPlaying) {
+        isPlaying = true;
+        musicBtn.innerText = '🔊 Musique active';
+        playMelody();
+      }
+    });
+
+    function playMelody() {
+      if (!isPlaying) return;
+      const notes = [261.63, 329.63, 392.00, 523.25, 440.00, 349.23];
+      const note = notes[Math.floor(Math.random() * notes.length)];
+      
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(note, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.5);
+      
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      
+      osc.start();
+      osc.stop(audioCtx.currentTime + 1.5);
+      
+      setTimeout(playMelody, 800);
+    }
+  </script>
+</body>
+</html>
