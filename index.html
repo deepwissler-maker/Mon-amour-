@@ -1,143 +1,214 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Notre Histoire 💖</title>
-  
-  <!-- Polices Google Fonts (Poppins & Playfair Display pour le côté élégant) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notre Espace 🍵💗</title>
+<meta name="description" content="Notre petit espace à nous — souvenirs, mots doux et projets de couple.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,500;1,500;1,600&display=swap" rel="stylesheet">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍵</text></svg>">
+<link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-theme="matcha">
 
-  <!-- Arrière-plan dynamique avec bulles / cœurs flottants -->
-  <div class="hearts-container" id="heartsContainer"></div>
+<!-- ================= FOND ANIMÉ ================= -->
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
 
-  <!-- Panneau de Personnalisation / Édition -->
-  <aside class="settings-panel" id="settingsPanel">
-    <button class="panel-toggle-btn" id="togglePanelBtn" title="Personnaliser le site">
-      ⚙️ <span>Éditer</span>
-    </button>
-    <div class="panel-content">
-      <h3>🎨 Personnalisation</h3>
-      <p class="panel-subtitle">Modifie le contenu instantanément :</p>
-      
-      <div class="control-group">
-        <label for="inputTitle">Titre principal :</label>
-        <input type="text" id="inputTitle" placeholder="Notre Histoire D'amour">
-      </div>
-
-      <div class="control-group">
-        <label for="inputSubtitle">Sous-titre / Surnom :</label>
-        <input type="text" id="inputSubtitle" placeholder="Pour ma personne préférée 🌹">
-      </div>
-
-      <div class="control-group">
-        <label for="inputMessage">Lettre / Message romantique :</label>
-        <textarea id="inputMessage" rows="5" placeholder="Écris ton mot doux ici..."></textarea>
-      </div>
-
-      <div class="control-group">
-        <label for="photoUploader">Ajouter des photos souvenirs :</label>
-        <input type="file" id="photoUploader" accept="image/*" multiple>
-      </div>
-
-      <button class="btn-primary" id="saveSettingsBtn">Enregistrer les modifications</button>
+<!-- ================= NAVIGATION ================= -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <span class="logo">🍵 <span class="logo-text">Notre Espace</span> 💗</span>
+    <div class="topbar-actions">
+      <button id="openAudio" class="icon-btn" title="Ambiance sonore" aria-label="Ouvrir le lecteur d'ambiance">🎧</button>
+      <button id="openConfig" class="icon-btn" title="Personnaliser" aria-label="Ouvrir les réglages">⚙️</button>
     </div>
-  </aside>
+  </div>
+</header>
 
-  <!-- Conteneur Principal -->
-  <main class="app-layout">
+<main class="page">
 
-    <!-- En-tête / Hero Section -->
-    <header class="hero-card glass">
-      <div class="badge-tag">✨ Notre Espace Préféré</div>
-      <h1 class="main-title" id="displayTitle">Notre Histoire D'amour</h1>
-      <p class="sub-title" id="displaySubtitle">Pour la plus merveilleuse des personnes 🌹</p>
-    </header>
+  <!-- ================= HERO ================= -->
+  <section class="hero card">
+    <p class="eyebrow-free" id="counterWidget">
+      <span id="counterNumber">0</span> <span id="counterLabel">jours ensemble</span>
+    </p>
+    <h1 id="mainTitle" contenteditable="false">Notre petit monde matcha &amp; câlins</h1>
+    <p class="subtitle" id="mainSubtitle" contenteditable="false">Un coin d'internet rien qu'à nous, doux comme un latte partagé un dimanche pluvieux.</p>
 
-    <!-- Section Message Romantique -->
-    <section class="letter-card glass">
-      <div class="card-header">
-        <h2>💌 Un mot pour toi</h2>
+    <div class="mot-du-jour">
+      <span class="mot-du-jour-label">Mot doux du jour</span>
+      <p id="motDuJour">Chaque jour à tes côtés a le goût d'un matcha bien préparé : réconfortant et un peu magique.</p>
+    </div>
+  </section>
+
+  <!-- ================= LETTRE D'AMOUR ================= -->
+  <section class="card lettre">
+    <h2>Une lettre pour toi</h2>
+    <p id="lettreAmour" class="lettre-texte" contenteditable="false">Mon petit matcha latte,
+
+Je voulais te laisser ces quelques mots ici, dans notre espace, pour que tu puisses les relire quand tu veux — même à trois heures du matin en pyjama.
+
+Merci d'exister, merci de rester, merci pour tout ce qu'on construit doucement, jour après jour. J'ai hâte de continuer cette histoire avec toi, une tasse chaude à la main et ton rire pas loin.
+
+Je t'aime, fort.</p>
+  </section>
+
+  <!-- ================= GENERATEUR DE PENSEES ================= -->
+  <section class="card pensees">
+    <h2>Générateur de pensées douces</h2>
+    <p class="pensees-sub">Un petit coup de pouce quand tu as besoin d'entendre quelque chose de gentil.</p>
+    <div class="pensee-affichage" id="penseeAffichage">Appuie sur le bouton pour piocher une pensée douce 🌸</div>
+    <button id="btnPensee" class="btn-primary">Piocher une pensée 🎀</button>
+  </section>
+
+  <!-- ================= GALERIE ================= -->
+  <section class="card galerie">
+    <h2>Notre galerie de souvenirs</h2>
+    <p class="galerie-sub">Ajoute vos photos préférées, elles restent enregistrées dans ce navigateur.</p>
+
+    <label class="upload-zone" for="photoInput">
+      <span class="upload-icon">📷</span>
+      <span>Cliquer ou déposer une photo ici</span>
+      <input type="file" id="photoInput" accept="image/*" multiple hidden>
+    </label>
+
+    <div id="galerieGrid" class="galerie-grid"></div>
+  </section>
+
+  <!-- ================= BUCKET LIST ================= -->
+  <section class="card bucketlist">
+    <h2>Notre liste de souhaits</h2>
+    <p class="bucket-sub">Les petites et grandes choses qu'on a envie de vivre ensemble.</p>
+
+    <ul id="bucketListItems" class="bucket-items"></ul>
+
+    <form id="bucketForm" class="bucket-form">
+      <input type="text" id="bucketInput" placeholder="Ajouter un souhait… (ex: pique-nique au parc)" maxlength="120">
+      <button type="submit" class="btn-secondary">Ajouter</button>
+    </form>
+  </section>
+
+  <footer class="footer">
+    <p>Fait avec 💚 pour notre histoire — <span id="footerYear"></span></p>
+  </footer>
+
+</main>
+
+<!-- ================= LECTEUR AUDIO FLOTTANT ================= -->
+<div id="audioPanel" class="floating-panel audio-panel" hidden>
+  <div class="panel-header">
+    <h3>Ambiance sonore</h3>
+    <button class="icon-btn close-btn" data-close="audioPanel" aria-label="Fermer">✕</button>
+  </div>
+
+  <div class="audio-visual" id="audioVisual">
+    <span class="wave w1"></span>
+    <span class="wave w2"></span>
+    <span class="wave w3"></span>
+    <span class="wave w4"></span>
+    <span class="wave w5"></span>
+  </div>
+
+  <div class="audio-controls">
+    <button id="playPauseBtn" class="btn-primary play-btn">▶️ Lecture</button>
+
+    <div class="field">
+      <label for="ambianceSelect">Ambiance</label>
+      <select id="ambianceSelect">
+        <option value="piano">Piano doux</option>
+        <option value="pluie">Pluie &amp; café</option>
+        <option value="lofi">Lofi matcha</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="volumeRange">Volume</label>
+      <input type="range" id="volumeRange" min="0" max="100" value="40">
+    </div>
+  </div>
+</div>
+
+<!-- ================= PANNEAU DE CONFIGURATION ================= -->
+<div id="configPanel" class="floating-panel config-panel" hidden>
+  <div class="panel-header">
+    <h3>Personnaliser notre espace</h3>
+    <button class="icon-btn close-btn" data-close="configPanel" aria-label="Fermer">✕</button>
+  </div>
+
+  <div class="config-body">
+
+    <div class="config-group">
+      <span class="config-label">Ambiance visuelle</span>
+      <div class="theme-grid">
+        <button class="theme-swatch" data-theme="matcha" title="Matcha Soft">
+          <span class="swatch swatch-matcha"></span>Matcha Soft
+        </button>
+        <button class="theme-swatch" data-theme="kitty" title="Hello Kitty Pink">
+          <span class="swatch swatch-kitty"></span>Hello Kitty
+        </button>
+        <button class="theme-swatch" data-theme="nuit" title="Nuit Étoilée">
+          <span class="swatch swatch-nuit"></span>Nuit Étoilée
+        </button>
+        <button class="theme-swatch" data-theme="aura" title="Aura Romantique">
+          <span class="swatch swatch-aura"></span>Aura Romantique
+        </button>
       </div>
-      <div class="letter-body">
-        <p id="displayMessage">
-          Mon amour, j'ai créé ce petit endroit rien que pour nous. Un espace où nous pouvons réunir nos plus beaux souvenirs, écouter nos musiques préférées et se rappeler à quel point chaque moment passé à tes côtés est précieux. Je t'aime infiniment.
-        </p>
-      </div>
-    </section>
+    </div>
 
-    <!-- Section Galerie Souvenirs -->
-    <section class="gallery-card glass">
-      <div class="card-header">
-        <h2>📸 Nos Plus Beaux Moments</h2>
-        <p class="section-desc">Clique sur le bouton Éditer pour importer tes photos depuis ton appareil !</p>
-      </div>
-      
-      <div class="photo-grid" id="photoGrid">
-        <!-- Emplacements de photos par défaut -->
-        <div class="photo-item">
-          <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=600&q=80" alt="Souvenir 1">
-          <span class="photo-caption">Nos balades ❤️</span>
-        </div>
-        <div class="photo-item">
-          <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=600&q=80" alt="Souvenir 2">
-          <span class="photo-caption">Moments de douceur ☕</span>
-        </div>
-        <div class="photo-item">
-          <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=600&q=80" alt="Souvenir 3">
-          <span class="photo-caption">Rires & Complicité ✨</span>
-        </div>
-      </div>
-    </section>
+    <div class="config-group">
+      <span class="config-label">Textes</span>
 
-    <!-- Lecteur Audio Intégré -->
-    <section class="player-card glass">
-      <div class="player-content">
-        <div class="album-art-wrapper">
-          <img id="trackCover" src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=300&q=80" alt="Pochette Album" class="album-art">
-        </div>
+      <label class="config-field">
+        Titre principal
+        <input type="text" id="cfgTitle" maxlength="80">
+      </label>
 
-        <div class="track-details">
-          <h3 id="trackTitle" class="track-title">Chargement...</h3>
-          <p id="trackArtist" class="track-artist">Artiste</p>
+      <label class="config-field">
+        Sous-titre
+        <input type="text" id="cfgSubtitle" maxlength="140">
+      </label>
 
-          <!-- Barre de progression -->
-          <div class="progress-container" id="progressContainer">
-            <div class="progress-bar" id="progressBar"></div>
-          </div>
-          <div class="time-stamps">
-            <span id="currentTime">0:00</span>
-            <span id="durationTime">0:00</span>
-          </div>
+      <label class="config-field">
+        Mot doux du jour
+        <textarea id="cfgMot" rows="2" maxlength="200"></textarea>
+      </label>
 
-          <!-- Contrôles du Lecteur -->
-          <div class="player-controls">
-            <button class="ctrl-btn" id="prevBtn" title="Précédent">⏮️</button>
-            <button class="ctrl-btn main-play-btn" id="playBtn" title="Lecture/Pause">▶️</button>
-            <button class="ctrl-btn" id="nextBtn" title="Suivant">⏭️</button>
-          </div>
+      <label class="config-field">
+        Lettre d'amour
+        <textarea id="cfgLettre" rows="6" maxlength="2000"></textarea>
+      </label>
+    </div>
 
-          <!-- Contrôle du Volume -->
-          <div class="volume-container">
-            <span>🔈</span>
-            <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.8">
-            <span>🔊</span>
-          </div>
-        </div>
-      </div>
+    <div class="config-group">
+      <span class="config-label">Compteur de jours</span>
+      <label class="config-field">
+        Afficher le widget
+        <select id="cfgCounterMode">
+          <option value="off">Désactivé</option>
+          <option value="since">Jours depuis une date</option>
+          <option value="countdown">Compte à rebours vers une date</option>
+        </select>
+      </label>
+      <label class="config-field">
+        Date de référence
+        <input type="date" id="cfgCounterDate">
+      </label>
+    </div>
 
-      <!-- Élément Audio Caché -->
-      <audio id="audioPlayer"></audio>
-    </section>
+    <div class="config-group">
+      <span class="config-label">Données</span>
+      <button id="btnResetAll" class="btn-danger">Réinitialiser tout le contenu</button>
+    </div>
 
-  </main>
+  </div>
+</div>
 
-  <script src="script.js"></script>
+<div id="toast" class="toast" hidden></div>
+
+<script src="script.js"></script>
 </body>
 </html>
