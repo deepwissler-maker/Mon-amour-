@@ -3,87 +3,82 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Matcha & Hello Kitty Space 🍵🎀</title>
+  <title>Notre Espace Intime 🍵🎀</title>
   
-  <!-- Police arrondie et moderne (Fredoka & Nunito) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body data-theme="matcha">
 
-  <!-- Bouton Musique Matcha -->
-  <button class="audio-btn" id="audioBtn">
-    <span class="btn-icon">🍵</span>
-    <span>Lofi & Matcha</span>
+  <!-- Barre de Contrôle Personnalisable (visible pour toi) -->
+  <aside class="admin-panel" id="adminPanel">
+    <div class="panel-header">
+      <span>🎨 Personnaliser l'Espace</span>
+      <button id="togglePanelBtn">⚙️ Modificateurs</button>
+    </div>
+    
+    <div class="panel-content" id="panelContent">
+      <div class="control-group">
+        <label>Thème de Couleurs :</label>
+        <select id="themeSelect">
+          <option value="matcha">🍵 Matcha & Cream (Vert Doux)</option>
+          <option value="hellokitty">🎀 Hello Kitty Soft (Rose Pastel)</option>
+          <option value="romantic">💖 Nuit Romantique (Prune / Rose)</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label>Musique d'ambiance :</label>
+        <select id="musicSelect">
+          <option value="lofi">🍵 Lofi Soft Matcha</option>
+          <option value="piano">🎹 Piano Romantique</option>
+          <option value="ambient">✨ Douceur Relaxante</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label>Ajouter une photo souvenir :</label>
+        <input type="file" id="photoInput" accept="image/*">
+      </div>
+    </div>
+  </aside>
+
+  <!-- Lecteur Audio Romantique -->
+  <button class="audio-player-btn" id="audioToggle">
+    <span id="musicIcon">🎵</span>
+    <span id="musicTitle">Lancer la musique</span>
   </button>
 
   <main class="app-container">
     
-    <!-- En-tête Hello Kitty & Matcha -->
-    <header class="profile-header">
-      <div class="avatar-wrapper">
-        <!-- Illustration Hello Kitty avec Matcha -->
-        <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/1f375.svg" alt="Matcha" class="matcha-badge">
-        <img src="https://upload.wikimedia.org/wikipedia/en/0/05/Hello_kitty_character_art.png" alt="Hello Kitty" class="hk-avatar">
+    <!-- En-tête -->
+    <header class="main-header">
+      <div class="avatar-box">
+        <img src="https://upload.wikimedia.org/wikipedia/en/0/05/Hello_kitty_character_art.png" alt="Hello Kitty" class="avatar-img">
       </div>
-      <h1 class="main-title">Notre Espace Matcha 🍵</h1>
-      <p class="tagline">Pour ma personne préférée 🎀</p>
+      <h1 class="editable-text" contenteditable="true" id="mainTitle">Notre Petit Cocon 🍵🎀</h1>
+      <p class="editable-text tagline" contenteditable="true" id="subTitle">Clique sur n'importe quel texte pour le modifier directement !</p>
     </header>
 
-    <!-- Carte 1 : Générateur de Mots Doux -->
-    <section class="hk-card">
-      <div class="card-ribbon">🎀</div>
-      <h2 class="card-title">Le Mot Doux du Jour</h2>
-      
-      <div class="note-box" id="noteDisplay">
-        <p class="note-text">« Un petit instant douceur... Clique ci-dessous pour piocher ta pensée. »</p>
+    <!-- Section Déclaration / Mot Doux -->
+    <section class="custom-card">
+      <div class="card-tag">💌 Pour toi</div>
+      <div class="editable-text love-letter" contenteditable="true" id="loveLetterText">
+        Écris ton message personnalisé ici... Par exemple : "Mon amour, j'ai créé ce petit espace spécialement pour nous deux, plein de douceur, de matcha et de Hello Kitty."
       </div>
-
-      <button class="btn-hk" id="newNoteBtn">
-        <span>Piocher une pensée</span>
-        <span class="btn-emoji">✨</span>
-      </button>
     </section>
 
-    <!-- Carte 2 : Bucket List Matcha & Couple -->
-    <section class="hk-card">
-      <div class="card-ribbon">🍵</div>
-      <h2 class="card-title">Projets & Dates à Cocher</h2>
-      <p class="card-subtitle">Nos prochains petits moments ensemble :</p>
-
-      <ul class="bucket-list">
-        <li class="bucket-item">
-          <input type="checkbox" id="task1">
-          <label for="task1">
-            <span class="custom-check"></span>
-            Se faire un vrai Matcha Latte maison bien crémeux 🍵
-          </label>
-        </li>
-        <li class="bucket-item">
-          <input type="checkbox" id="task2">
-          <label for="task2">
-            <span class="custom-check"></span>
-            Session shopping / dénicher un truc Hello Kitty 🎀
-          </label>
-        </li>
-        <li class="bucket-item">
-          <input type="checkbox" id="task3">
-          <label for="task3">
-            <span class="custom-check"></span>
-            Soirée chill, plaid et série/film réconfortant 🍕
-          </label>
-        </li>
-        <li class="bucket-item">
-          <input type="checkbox" id="task4">
-          <label for="task4">
-            <span class="custom-check"></span>
-            Tester un nouveau salon de thé / café sympa 🍰
-          </label>
-        </li>
-      </ul>
+    <!-- Galerie Photo Personnalisable -->
+    <section class="custom-card">
+      <div class="card-tag">📸 Nos Souvenirs</div>
+      <p class="card-hint">Utilise le panneau en haut à droite pour importer tes propres photos !</p>
+      
+      <div class="photo-gallery" id="photoGallery">
+        <!-- Vos photos ajoutées s'afficheront ici -->
+      </div>
     </section>
 
   </main>
@@ -91,3 +86,4 @@
   <script src="js/script.js"></script>
 </body>
 </html>
+

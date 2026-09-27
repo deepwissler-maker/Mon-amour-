@@ -1,80 +1,106 @@
-
 document.addEventListener('DOMContentLoaded', () => {
-  
-  // 1. Liste de Mots Doux Thématiques (Matcha, Douceur & Hello Kitty)
-  const notes = [
-    "« Tu es encore plus réconfortante qu'un bon Matcha Latte chaud un jour de pluie 🍵 »",
-    "« Sache que tu es la personne la plus mignonne que je connaisse (après Hello Kitty 😉) 🎀 »",
-    "« Merci d'apporter autant de douceur et de bonnes ondes dans ma vie au quotidien. »",
-    "« J'ai trop hâte qu'on se fasse notre prochaine pause café / matcha ensemble ! »",
-    "« Juste un petit rappel : tu es formidable et je suis trop content d'être avec toi ✨ »",
-    "« Ton sourire me fait toujours le même effet. Passe une belle journée ma précieuse ! 🌸 »"
-  ];
 
-  const noteDisplay = document.getElementById('noteDisplay');
-  const newNoteBtn = document.getElementById('newNoteBtn');
-  let lastIndex = -1;
+  // 1. Gestion du Panneau d'administration
+  const togglePanelBtn = document.getElementById('togglePanelBtn');
+  const panelContent = document.getElementById('panelContent');
 
-  newNoteBtn.addEventListener('click', () => {
-    noteDisplay.style.opacity = '0';
-
-    setTimeout(() => {
-      let randomIndex;
-      do {
-        randomIndex = Math.floor(Math.random() * notes.length);
-      } while (randomIndex === lastIndex && notes.length > 1);
-      
-      lastIndex = randomIndex;
-      noteDisplay.querySelector('.note-text').innerText = notes[randomIndex];
-      noteDisplay.style.opacity = '1';
-    }, 200);
+  togglePanelBtn.addEventListener('click', () => {
+    panelContent.classList.toggle('open');
   });
 
-  // 2. Sauvegarde des cases cochées
-  const checkboxes = document.querySelectorAll('.bucket-item input[type="checkbox"]');
-  checkboxes.forEach((checkbox) => {
-    const savedState = localStorage.getItem('hk_matcha_' + checkbox.id);
-    if (savedState === 'true') checkbox.checked = true;
+  // 2. Changer le thème de couleurs
+  const themeSelect = document.getElementById('themeSelect');
+  const savedTheme = localStorage.getItem('user_theme') || 'matcha';
+  document.body.setAttribute('data-theme', savedTheme);
+  themeSelect.value = savedTheme;
 
-    checkbox.addEventListener('change', (e) => {
-      localStorage.setItem('hk_matcha_' + e.target.id, e.target.checked);
+  themeSelect.addEventListener('change', (e) => {
+    const selectedTheme = e.target.value;
+    document.body.setAttribute('data-theme', selectedTheme);
+    localStorage.setItem('user_theme', selectedTheme);
+  });
+
+  // 3. Sauvegarde automatique des textes modifiables
+  const editableIds = ['mainTitle', 'subTitle', 'loveLetterText'];
+  editableIds.forEach((id) => {
+    const el = document.getElementById(id);
+    const savedVal = localStorage.getItem('user_text_' + id);
+    if (savedVal) el.innerText = savedVal;
+
+    el.addEventListener('input', () => {
+      localStorage.setItem('user_text_' + id, el.innerText);
     });
   });
 
-  // 3. Audio Lofi Relaxant
-  let audioCtx = null;
-  let isPlaying = false;
-  const audioBtn = document.getElementById('audioBtn');
+  // 4. Import et affichage des photos depuis l'appareil
+  const photoInput = document.getElementById('photoInput');
+  const photoGallery = document.getElementById('photoGallery');
 
-  audioBtn.addEventListener('click', () => {
-    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    
-    if (!isPlaying) {
-      isPlaying = true;
-      audioBtn.querySelector('span:last-child').innerText = 'Musique active 🎵';
-      playLofiNote();
+  function loadPhotos() {
+    const savedPhotos = JSON.parse(localStorage.getItem('user_photos') || '[]');
+    photoGallery.innerHTML = '';
+    savedPhotos.forEach((src) => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.className = 'photo-item';
+      photoGallery.appendChild(img);
+    });
+  }
+
+  photoInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const savedPhotos = JSON.parse(localStorage.getItem('user_photos') || '[]');
+        savedPhotos.push(event.target.result);
+        localStorage.setItem('user_photos', JSON.stringify(savedPhotos));
+        loadPhotos();
+      };
+      reader.readAsDataURL(file);
     }
   });
 
-  function playLofiNote() {
-    if (!isPlaying) return;
-    const chords = [261.63, 329.63, 392.00, 440.00, 349.23];
-    const freq = chords[Math.floor(Math.random() * chords.length)];
+  loadPhotos();
+
+  // 5. Synthétiseur de musique romantique d'ambiance
+  let audioCtx = null;
+  let isPlaying = false;
+  const audioToggle = document.getElementById('audioToggle');
+  const musicSelect = document.getElementById('musicSelect');
+
+  audioToggle.addEventListener('click', () => {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     
+    isPlaying = !isPlaying;
+    document.getElementById('musicTitle').innerText = isPlaying ? 'Pause Musique' : 'Lancer la musique';
+    
+    if (isPlaying) playMusicTrack();
+  });
+
+  function playMusicTrack() {
+    if (!isPlaying) return;
+    
+    const style = musicSelect.value;
+    let notes = [261.63, 329.63, 392.00, 440.00]; // Lofi Matcha
+    if (style === 'piano') notes = [293.66, 349.23, 440.00, 523.25]; // Piano
+    if (style === 'ambient') notes = [220.00, 277.18, 329.63, 415.30]; // Relaxing
+
+    const freq = notes[Math.floor(Math.random() * notes.length)];
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
-    
-    osc.type = 'triangle';
+
+    osc.type = style === 'piano' ? 'sine' : 'triangle';
     osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-    gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.5);
-    
+    gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 3.0);
+
     osc.connect(gain);
     gain.connect(audioCtx.destination);
-    
+
     osc.start();
-    osc.stop(audioCtx.currentTime + 2.5);
-    
-    setTimeout(playLofiNote, 1100);
+    osc.stop(audioCtx.currentTime + 3.0);
+
+    setTimeout(playMusicTrack, 1200);
   }
 });

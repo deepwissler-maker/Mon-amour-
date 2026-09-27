@@ -1,23 +1,39 @@
 /* ==========================================================================
-   PALETTE DE COULEURS : MATCHA & HELLO KITTY
+   THEMES DYNAMIQUES : MATCHA, HELLO KITTY & ROMANTIQUE
    ========================================================================== */
 :root {
   --font-title: 'Fredoka', cursive, sans-serif;
   --font-body: 'Nunito', sans-serif;
-  
-  --matcha-dark: #588157;
-  --matcha-main: #a3b18a;
-  --matcha-soft: #e9edc9;
-  --cream-bg: #fefae0;
-  
-  --hk-pink: #ffb7c5;
-  --hk-pink-dark: #ff6b8b;
+}
+
+/* Thème Matcha */
+body[data-theme="matcha"] {
+  --bg-color: #fefae0;
+  --accent-color: #a3b18a;
+  --accent-dark: #588157;
   --card-bg: #ffffff;
   --text-color: #3a405a;
-  
-  --radius-lg: 28px;
-  --radius-md: 18px;
-  --shadow-hk: 0 10px 25px rgba(88, 129, 87, 0.12);
+  --tag-bg: #e9edc9;
+}
+
+/* Thème Hello Kitty */
+body[data-theme="hellokitty"] {
+  --bg-color: #fff0f3;
+  --accent-color: #ffb7c5;
+  --accent-dark: #ff6b8b;
+  --card-bg: #ffffff;
+  --text-color: #4a4e69;
+  --tag-bg: #ffccd5;
+}
+
+/* Thème Romantique */
+body[data-theme="romantic"] {
+  --bg-color: #f3e8ee;
+  --accent-color: #c9ada7;
+  --accent-dark: #9a8c98;
+  --card-bg: #ffffff;
+  --text-color: #22223b;
+  --tag-bg: #e2afff;
 }
 
 * {
@@ -28,234 +44,175 @@
 
 body {
   font-family: var(--font-body);
-  background-color: var(--cream-bg);
-  /* Motifs à pois très légers style papeterie Kawaii */
-  background-image: radial-gradient(#ccd5ae 1.5px, transparent 1.5px);
-  background-size: 24px 24px;
+  background-color: var(--bg-color);
   color: var(--text-color);
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  padding: 30px 16px;
+  padding: 20px 15px;
+  transition: background-color 0.3s ease;
 }
 
-/* Bouton Audio Matcha */
-.audio-btn {
+/* Panneau Admin / Personnalisation */
+.admin-panel {
   position: fixed;
-  top: 18px;
-  right: 18px;
-  z-index: 100;
+  top: 15px;
+  right: 15px;
+  z-index: 1000;
   background: var(--card-bg);
-  border: 2px solid var(--matcha-main);
-  padding: 8px 16px;
-  border-radius: 30px;
+  border: 2px solid var(--accent-dark);
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  max-width: 280px;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 800;
+  font-size: 0.9rem;
+  gap: 10px;
+}
+
+#togglePanelBtn {
+  background: var(--accent-color);
+  border: none;
+  padding: 4px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.panel-content {
+  display: none;
+  margin-top: 12px;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.panel-content.open {
+  display: flex;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.control-group select, .control-group input {
+  padding: 6px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
   font-family: var(--font-body);
+}
+
+/* Bouton Musique */
+.audio-player-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--accent-dark);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 30px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 900;
+}
+
+/* Layout */
+.app-container {
+  max-width: 500px;
+  margin: 60px auto 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.main-header {
+  text-align: center;
+}
+
+.avatar-box {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 10px;
+  background: var(--tag-bg);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-img {
+  width: 65px;
+}
+
+/* Cartes & Zones de texte modifiables */
+.custom-card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 20px;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border: 2px solid var(--tag-bg);
+}
+
+.card-tag {
+  position: absolute;
+  top: -12px;
+  left: 15px;
+  background: var(--tag-bg);
+  padding: 2px 10px;
+  border-radius: 10px;
   font-weight: 800;
   font-size: 0.85rem;
-  color: var(--matcha-dark);
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: transform 0.2s ease;
 }
 
-.audio-btn:active {
-  transform: scale(0.95);
+.card-hint {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 5px;
+  margin-bottom: 12px;
 }
 
-/* Conteneur Principal */
-.app-container {
-  width: 100%;
-  max-width: 440px;
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-}
-
-/* En-tête Profile */
-.profile-header {
-  text-align: center;
-  margin-top: 10px;
-}
-
-.avatar-wrapper {
-  position: relative;
-  width: 110px;
-  height: 110px;
-  margin: 0 auto 12px;
-  background: var(--matcha-soft);
-  border: 3px solid var(--hk-pink);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hk-avatar {
-  width: 80px;
-  height: auto;
-  object-fit: contain;
-}
-
-.matcha-badge {
-  position: absolute;
-  bottom: -4px;
-  right: -4px;
-  width: 32px;
-  height: 32px;
-  background: white;
-  border-radius: 50%;
+.editable-text {
+  outline: none;
   padding: 4px;
-  border: 2px solid var(--matcha-main);
+  border-radius: 6px;
+  transition: background 0.2s ease;
 }
 
-.main-title {
-  font-family: var(--font-title);
-  font-size: 1.8rem;
-  color: var(--matcha-dark);
+.editable-text:hover, .editable-text:focus {
+  background: rgba(0,0,0,0.03);
+  box-shadow: 0 0 0 2px var(--accent-color);
 }
 
-.tagline {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--hk-pink-dark);
+.love-letter {
+  min-height: 80px;
+  line-height: 1.6;
+  font-size: 1rem;
 }
 
-/* Cartes Style Hello Kitty */
-.hk-card {
-  background: var(--card-bg);
-  border: 2.5px solid var(--matcha-soft);
-  border-radius: var(--radius-lg);
-  padding: 26px 20px;
-  position: relative;
-  box-shadow: var(--shadow-hk);
+/* Galerie Photo */
+.photo-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
 }
 
-.card-ribbon {
-  position: absolute;
-  top: -14px;
-  left: 20px;
-  background: var(--hk-pink);
-  padding: 2px 10px;
-  border-radius: 12px;
-  font-size: 1.1rem;
-}
-
-.card-title {
-  font-family: var(--font-title);
-  font-size: 1.35rem;
-  color: var(--matcha-dark);
-  margin-bottom: 6px;
-}
-
-.card-subtitle {
-  font-size: 0.88rem;
-  color: #7f8c8d;
-  margin-bottom: 16px;
-  font-weight: 700;
-}
-
-/* Boîte à Mot Doux */
-.note-box {
-  background: var(--cream-bg);
-  border: 2px dashed var(--matcha-main);
-  border-radius: var(--radius-md);
-  padding: 20px 16px;
-  min-height: 90px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  margin: 15px 0;
-  transition: opacity 0.25s ease;
-}
-
-.note-text {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--matcha-dark);
-  line-height: 1.5;
-}
-
-/* Boutons Kawaii */
-.btn-hk {
+.photo-item {
   width: 100%;
-  background: var(--hk-pink);
-  color: #ffffff;
-  border: none;
-  padding: 14px;
-  border-radius: var(--radius-md);
-  font-family: var(--font-title);
-  font-size: 1.1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  box-shadow: 0 6px 0 var(--hk-pink-dark);
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
-}
-
-.btn-hk:active {
-  transform: translateY(4px);
-  box-shadow: 0 2px 0 var(--hk-pink-dark);
-}
-
-/* Bucket List Matcha */
-.bucket-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.bucket-item label {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--cream-bg);
-  padding: 12px 14px;
-  border-radius: var(--radius-md);
-  font-size: 0.95rem;
-  font-weight: 700;
-  cursor: pointer;
-  border: 1.5px solid transparent;
-  transition: border-color 0.2s ease;
-}
-
-.bucket-item input[type="checkbox"] {
-  display: none;
-}
-
-.custom-check {
-  width: 22px;
-  height: 22px;
-  border: 2px solid var(--matcha-main);
-  border-radius: 8px;
-  background: white;
-  display: inline-block;
-  position: relative;
-  flex-shrink: 0;
-}
-
-.bucket-item input[type="checkbox"]:checked + label .custom-check {
-  background: var(--matcha-dark);
-  border-color: var(--matcha-dark);
-}
-
-.bucket-item input[type="checkbox"]:checked + label .custom-check::after {
-  content: '✓';
-  position: absolute;
-  color: white;
-  font-size: 14px;
-  top: -1px;
-  left: 4px;
-  font-weight: 800;
-}
-
-.bucket-item input[type="checkbox"]:checked + label {
-  text-decoration: line-through;
-  opacity: 0.6;
+  height: 140px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 2px solid var(--tag-bg);
 }
