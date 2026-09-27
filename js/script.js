@@ -1,25 +1,14 @@
+
 document.addEventListener('DOMContentLoaded', () => {
   
-  // 1. Particules d'arrière-plan
-  const particlesContainer = document.getElementById('particlesContainer');
-  function createParticle() {
-    const particle = document.createElement('div');
-    particle.className = 'particle';
-    particle.style.left = Math.random() * 100 + 'vw';
-    particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
-    particlesContainer.appendChild(particle);
-    setTimeout(() => particle.remove(), 8000);
-  }
-  setInterval(createParticle, 350);
-
-  // 2. Mots Doux & Pensees (Facile à enrichir !)
+  // 1. Liste de Mots Doux Thématiques (Matcha, Douceur & Hello Kitty)
   const notes = [
-    "« Sache que ton bonheur compte énormément pour moi au quotidien. »",
-    "« J'adore nos discussions et la complicité qu'on crée jour après jour. »",
-    "« Merci d'être toi-même, c'est ce qui fait tout ton charme. »",
-    "« Chaque petit moment passé avec toi est un vrai plaisir. »",
-    "« Tu as cette capacité unique de me faire sourire sans même forcer. »",
-    "« Hâte de cocher tous nos projets ensemble ! »"
+    "« Tu es encore plus réconfortante qu'un bon Matcha Latte chaud un jour de pluie 🍵 »",
+    "« Sache que tu es la personne la plus mignonne que je connaisse (après Hello Kitty 😉) 🎀 »",
+    "« Merci d'apporter autant de douceur et de bonnes ondes dans ma vie au quotidien. »",
+    "« J'ai trop hâte qu'on se fasse notre prochaine pause café / matcha ensemble ! »",
+    "« Juste un petit rappel : tu es formidable et je suis trop content d'être avec toi ✨ »",
+    "« Ton sourire me fait toujours le même effet. Passe une belle journée ma précieuse ! 🌸 »"
   ];
 
   const noteDisplay = document.getElementById('noteDisplay');
@@ -28,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   newNoteBtn.addEventListener('click', () => {
     noteDisplay.style.opacity = '0';
-    noteDisplay.style.transform = 'translateY(5px)';
 
     setTimeout(() => {
       let randomIndex;
@@ -38,24 +26,22 @@ document.addEventListener('DOMContentLoaded', () => {
       
       lastIndex = randomIndex;
       noteDisplay.querySelector('.note-text').innerText = notes[randomIndex];
-      
       noteDisplay.style.opacity = '1';
-      noteDisplay.style.transform = 'translateY(0)';
-    }, 250);
+    }, 200);
   });
 
-  // 3. Sauvegarde automatique des cases cochées (dans le navigateur)
+  // 2. Sauvegarde des cases cochées
   const checkboxes = document.querySelectorAll('.bucket-item input[type="checkbox"]');
   checkboxes.forEach((checkbox) => {
-    const savedState = localStorage.getItem(checkbox.id);
+    const savedState = localStorage.getItem('hk_matcha_' + checkbox.id);
     if (savedState === 'true') checkbox.checked = true;
 
     checkbox.addEventListener('change', (e) => {
-      localStorage.setItem(e.target.id, e.target.checked);
+      localStorage.setItem('hk_matcha_' + e.target.id, e.target.checked);
     });
   });
 
-  // 4. Synthesizer Musique Douce
+  // 3. Audio Lofi Relaxant
   let audioCtx = null;
   let isPlaying = false;
   const audioBtn = document.getElementById('audioBtn');
@@ -65,30 +51,30 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (!isPlaying) {
       isPlaying = true;
-      audioBtn.querySelector('span').innerText = 'Musique active';
-      playSoftTune();
+      audioBtn.querySelector('span:last-child').innerText = 'Musique active 🎵';
+      playLofiNote();
     }
   });
 
-  function playSoftTune() {
+  function playLofiNote() {
     if (!isPlaying) return;
-    const freqs = [261.63, 329.63, 392.00, 523.25, 440.00, 349.23];
-    const freq = freqs[Math.floor(Math.random() * freqs.length)];
+    const chords = [261.63, 329.63, 392.00, 440.00, 349.23];
+    const freq = chords[Math.floor(Math.random() * chords.length)];
     
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
     
-    osc.type = 'sine';
+    osc.type = 'triangle';
     osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-    gain.gain.setValueAtTime(0.025, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.2);
+    gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.5);
     
     osc.connect(gain);
     gain.connect(audioCtx.destination);
     
     osc.start();
-    osc.stop(audioCtx.currentTime + 2.2);
+    osc.stop(audioCtx.currentTime + 2.5);
     
-    setTimeout(playSoftTune, 900);
+    setTimeout(playLofiNote, 1100);
   }
 });

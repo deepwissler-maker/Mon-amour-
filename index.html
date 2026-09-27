@@ -3,71 +3,85 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Notre Espace ❤️</title>
+  <title>Matcha & Hello Kitty Space 🍵🎀</title>
   
+  <!-- Police arrondie et moderne (Fredoka & Nunito) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <div class="bg-gradient"></div>
-  <div class="particles-container" id="particlesContainer"></div>
-
-  <button class="audio-btn" id="audioBtn" aria-label="Musique de fond">
-    <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-      <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
-    </svg>
-    <span>Musique</span>
+  <!-- Bouton Musique Matcha -->
+  <button class="audio-btn" id="audioBtn">
+    <span class="btn-icon">🍵</span>
+    <span>Lofi & Matcha</span>
   </button>
 
   <main class="app-container">
     
-    <!-- Section 1 : Générateur de Mots Doux -->
-    <section class="main-card">
-      <div class="card-header">
-        <svg viewBox="0 0 24 24" class="heart-svg pulse">
-          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-        <h1 class="romantic-title">Un petit mot pour toi</h1>
-        <p class="subtitle">Clique sur le bouton pour piocher une pensée douce</p>
+    <!-- En-tête Hello Kitty & Matcha -->
+    <header class="profile-header">
+      <div class="avatar-wrapper">
+        <!-- Illustration Hello Kitty avec Matcha -->
+        <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/1f375.svg" alt="Matcha" class="matcha-badge">
+        <img src="https://upload.wikimedia.org/wikipedia/en/0/05/Hello_kitty_character_art.png" alt="Hello Kitty" class="hk-avatar">
       </div>
+      <h1 class="main-title">Notre Espace Matcha 🍵</h1>
+      <p class="tagline">Pour ma personne préférée 🎀</p>
+    </header>
 
+    <!-- Carte 1 : Générateur de Mots Doux -->
+    <section class="hk-card">
+      <div class="card-ribbon">🎀</div>
+      <h2 class="card-title">Le Mot Doux du Jour</h2>
+      
       <div class="note-box" id="noteDisplay">
-        <p class="note-text">« Bienvenue dans notre petit espace à nous. Clique ci-dessous pour commencer... »</p>
+        <p class="note-text">« Un petit instant douceur... Clique ci-dessous pour piocher ta pensée. »</p>
       </div>
 
-      <button class="btn-primary" id="newNoteBtn">
+      <button class="btn-hk" id="newNoteBtn">
         <span>Piocher une pensée</span>
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-          <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/>
-        </svg>
+        <span class="btn-emoji">✨</span>
       </button>
     </section>
 
-    <!-- Section 2 : Bucket List de Couple -->
-    <section class="main-card secondary-card">
-      <h2 class="section-title">Nos Projets & Envies</h2>
-      <p class="subtitle">Des petites choses qu'on accomplira ensemble</p>
+    <!-- Carte 2 : Bucket List Matcha & Couple -->
+    <section class="hk-card">
+      <div class="card-ribbon">🍵</div>
+      <h2 class="card-title">Projets & Dates à Cocher</h2>
+      <p class="card-subtitle">Nos prochains petits moments ensemble :</p>
 
-      <ul class="bucket-list" id="bucketList">
+      <ul class="bucket-list">
         <li class="bucket-item">
           <input type="checkbox" id="task1">
-          <label for="task1">Se faire une vraie soirée film / pop-corn au calme</label>
+          <label for="task1">
+            <span class="custom-check"></span>
+            Se faire un vrai Matcha Latte maison bien crémeux 🍵
+          </label>
         </li>
         <li class="bucket-item">
           <input type="checkbox" id="task2">
-          <label for="task2">Aller voir un coucher de soleil ensemble</label>
+          <label for="task2">
+            <span class="custom-check"></span>
+            Session shopping / dénicher un truc Hello Kitty 🎀
+          </label>
         </li>
         <li class="bucket-item">
           <input type="checkbox" id="task3">
-          <label for="task3">Tester un nouveau resto ou un nouveau plat</label>
+          <label for="task3">
+            <span class="custom-check"></span>
+            Soirée chill, plaid et série/film réconfortant 🍕
+          </label>
         </li>
         <li class="bucket-item">
           <input type="checkbox" id="task4">
-          <label for="task4">Partir en week-end sur un coup de tête</label>
+          <label for="task4">
+            <span class="custom-check"></span>
+            Tester un nouveau salon de thé / café sympa 🍰
+          </label>
         </li>
       </ul>
     </section>
