@@ -1,19 +1,14 @@
-/* ==========================================================================
-   1. VARIABLES & REZET GLOBAL
-   ========================================================================== */
 :root {
   --font-title: 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
   
-  --color-bg-start: #ffb199;
-  --color-bg-end: #ff0844;
   --color-accent: #e63946;
   --color-text: #2b2d42;
   --color-text-light: #6c757d;
   
   --glass-bg: rgba(255, 255, 255, 0.88);
   --glass-border: rgba(255, 255, 255, 0.6);
-  --shadow-soft: 0 15px 35px rgba(230, 57, 70, 0.15);
+  --shadow-soft: 0 15px 35px rgba(230, 57, 70, 0.12);
 }
 
 * {
@@ -29,14 +24,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow-x: hidden;
-  padding: 20px;
+  padding: 30px 15px;
   position: relative;
 }
 
-/* ==========================================================================
-   2. ARRIÈRE-PLAN SATINÉ ET ANIMATIONS
-   ========================================================================== */
 .bg-gradient {
   position: fixed;
   inset: 0;
@@ -61,9 +52,9 @@ body {
 
 .particle {
   position: absolute;
-  width: 8px;
-  height: 8px;
-  background: rgba(255, 255, 255, 0.6);
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.7);
   border-radius: 50%;
   animation: floatUp linear infinite;
 }
@@ -75,9 +66,6 @@ body {
   100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
 }
 
-/* ==========================================================================
-   3. BOUTON AUDIO
-   ========================================================================== */
 .audio-btn {
   position: fixed;
   top: 20px;
@@ -90,75 +78,37 @@ body {
   border: 1px solid var(--glass-border);
   padding: 10px 18px;
   border-radius: 30px;
-  font-family: var(--font-body);
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--color-accent);
   cursor: pointer;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   backdrop-filter: blur(10px);
-  transition: transform 0.2s ease, background 0.2s ease;
 }
 
-.audio-btn:hover {
-  transform: translateY(-2px);
-  background: #ffffff;
-}
-
-/* ==========================================================================
-   4. CONTENEUR & ÉTAPES
-   ========================================================================== */
 .app-container {
   width: 100%;
   max-width: 480px;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.card-step {
-  display: none;
-  opacity: 0;
-  transform: translateY(15px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.card-step.active {
-  display: block;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Enveloppe / Step 1 */
-.envelope-card {
+.main-card {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   border-radius: 24px;
-  padding: 40px 25px;
-  text-align: center;
-  cursor: pointer;
+  padding: 30px 24px;
   backdrop-filter: blur(12px);
   box-shadow: var(--shadow-soft);
-  transition: transform 0.3s ease;
-}
-
-.envelope-card:hover {
-  transform: translateY(-4px);
-}
-
-.envelope-icon-wrapper {
-  width: 70px;
-  height: 70px;
-  margin: 0 auto 20px;
-  background: rgba(230, 57, 70, 0.08);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  text-align: center;
 }
 
 .heart-svg {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   fill: var(--color-accent);
+  margin-bottom: 8px;
 }
 
 .heart-svg.pulse {
@@ -170,78 +120,38 @@ body {
   50% { transform: scale(1.15); }
 }
 
-.envelope-card h2 {
+.romantic-title, .section-title {
   font-family: var(--font-title);
-  font-size: 1.8rem;
-  color: var(--color-text);
-  margin-bottom: 8px;
-}
-
-.subtitle {
-  font-size: 0.9rem;
-  color: var(--color-text-light);
-}
-
-/* Lettre / Step 2 */
-.letter-card {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 24px;
-  padding: 32px 25px;
-  backdrop-filter: blur(12px);
-  box-shadow: var(--shadow-soft);
-}
-
-.romantic-title {
-  font-family: var(--font-title);
-  font-size: 2.2rem;
-  color: var(--color-accent);
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.letter-content p {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--color-text);
-  margin-bottom: 16px;
-}
-
-.cards-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin: 25px 0;
-}
-
-.info-card {
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  border-radius: 16px;
-  padding: 16px;
-  position: relative;
-  overflow: hidden;
-}
-
-.card-accent {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  background: var(--color-accent);
-}
-
-.info-card h3 {
-  font-size: 0.95rem;
+  font-size: 2rem;
   color: var(--color-accent);
   margin-bottom: 4px;
 }
 
-.info-card p {
+.subtitle {
   font-size: 0.88rem;
+  color: var(--color-text-light);
+  margin-bottom: 20px;
+}
+
+.note-box {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  padding: 22px 18px;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.note-text {
+  font-family: var(--font-title);
+  font-size: 1.35rem;
   line-height: 1.5;
-  color: #4a4e69;
+  color: #333;
+  font-style: italic;
 }
 
 .btn-primary {
@@ -251,8 +161,7 @@ body {
   border: none;
   padding: 14px;
   border-radius: 16px;
-  font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
   display: flex;
@@ -260,93 +169,46 @@ body {
   justify-content: center;
   gap: 8px;
   box-shadow: 0 8px 20px rgba(230, 57, 70, 0.25);
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition: transform 0.2s ease, background 0.2s ease;
 }
 
-.btn-primary:hover {
-  background: #d62839;
-  transform: translateY(-2px);
+.btn-primary:active {
+  transform: scale(0.98);
 }
 
-/* Proposal / Step 3 */
-.proposal-card {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 24px;
-  padding: 35px 25px;
-  text-align: center;
-  backdrop-filter: blur(12px);
-  box-shadow: var(--shadow-soft);
-}
-
-.proposal-header h2 {
-  font-family: var(--font-title);
-  font-size: 2rem;
-  margin: 15px 0 25px;
-}
-
-.actions-wrapper {
+/* Bucket List */
+.bucket-list {
+  list-style: none;
+  text-align: left;
   display: flex;
-  justify-content: center;
-  gap: 15px;
-  position: relative;
-  min-height: 50px;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.btn-choice {
-  padding: 12px 28px;
-  border-radius: 20px;
-  border: none;
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  font-weight: 600;
+.bucket-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.bucket-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-accent);
   cursor: pointer;
 }
 
-.btn-yes {
-  background: var(--color-accent);
-  color: white;
-  box-shadow: 0 6px 18px rgba(230, 57, 70, 0.3);
+.bucket-item label {
+  font-size: 0.92rem;
+  color: var(--color-text);
+  cursor: pointer;
 }
 
-.btn-no {
-  background: #e9ecef;
-  color: #495057;
-  position: absolute;
-  right: 20px;
-}
-
-/* Modal Final */
-.modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(8px);
-  z-index: 200;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.modal-content {
-  background: #ffffff;
-  border-radius: 24px;
-  padding: 35px 25px;
-  text-align: center;
-  max-width: 380px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-}
-
-.modal-content h2 {
-  font-family: var(--font-title);
-  font-size: 2.2rem;
-  color: var(--color-accent);
-  margin-bottom: 12px;
-}
-
-.modal-content p {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #495057;
+.bucket-item input[type="checkbox"]:checked + label {
+  text-decoration: line-through;
+  color: var(--color-text-light);
 }

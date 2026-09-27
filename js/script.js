@@ -1,58 +1,61 @@
 document.addEventListener('DOMContentLoaded', () => {
   
-  // --- 1. Génération de particules discrètes en arrière-plan ---
+  // 1. Particules d'arrière-plan
   const particlesContainer = document.getElementById('particlesContainer');
-  
   function createParticle() {
     const particle = document.createElement('div');
     particle.className = 'particle';
     particle.style.left = Math.random() * 100 + 'vw';
     particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
-    particle.style.opacity = Math.random() * 0.7 + 0.3;
-    
     particlesContainer.appendChild(particle);
     setTimeout(() => particle.remove(), 8000);
   }
-  setInterval(createParticle, 300);
+  setInterval(createParticle, 350);
 
-  // --- 2. Navigation entre les étapes ---
-  const openEnvelopeBtn = document.getElementById('openEnvelopeBtn');
-  const continueBtn = document.getElementById('continueBtn');
-  
-  const step1 = document.getElementById('step1');
-  const step2 = document.getElementById('step2');
-  const step3 = document.getElementById('step3');
+  // 2. Mots Doux & Pensees (Facile à enrichir !)
+  const notes = [
+    "« Sache que ton bonheur compte énormément pour moi au quotidien. »",
+    "« J'adore nos discussions et la complicité qu'on crée jour après jour. »",
+    "« Merci d'être toi-même, c'est ce qui fait tout ton charme. »",
+    "« Chaque petit moment passé avec toi est un vrai plaisir. »",
+    "« Tu as cette capacité unique de me faire sourire sans même forcer. »",
+    "« Hâte de cocher tous nos projets ensemble ! »"
+  ];
 
-  function switchStep(currentStep, nextStep) {
-    currentStep.classList.remove('active');
+  const noteDisplay = document.getElementById('noteDisplay');
+  const newNoteBtn = document.getElementById('newNoteBtn');
+  let lastIndex = -1;
+
+  newNoteBtn.addEventListener('click', () => {
+    noteDisplay.style.opacity = '0';
+    noteDisplay.style.transform = 'translateY(5px)';
+
     setTimeout(() => {
-      nextStep.classList.add('active');
-    }, 300);
-  }
-
-  openEnvelopeBtn.addEventListener('click', () => switchStep(step1, step2));
-  continueBtn.addEventListener('click', () => switchStep(step2, step3));
-
-  // --- 3. Esquive du bouton "Non" ---
-  const noBtn = document.getElementById('noBtn');
-  function dodgeButton() {
-    const randomX = Math.random() * 160 - 80;
-    const randomY = Math.random() * 100 - 50;
-    noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
-  }
-  noBtn.addEventListener('touchstart', dodgeButton);
-  noBtn.addEventListener('mouseover', dodgeButton);
-
-  // --- 4. Validation et Écran Final ---
-  const yesBtn = document.getElementById('yesBtn');
-  const victoryModal = document.getElementById('victoryModal');
-
-  yesBtn.addEventListener('click', () => {
-    victoryModal.style.styleDisplay = 'flex';
-    victoryModal.style.display = 'flex';
+      let randomIndex;
+      do {
+        randomIndex = Math.floor(Math.random() * notes.length);
+      } while (randomIndex === lastIndex && notes.length > 1);
+      
+      lastIndex = randomIndex;
+      noteDisplay.querySelector('.note-text').innerText = notes[randomIndex];
+      
+      noteDisplay.style.opacity = '1';
+      noteDisplay.style.transform = 'translateY(0)';
+    }, 250);
   });
 
-  // --- 5. Lecteur de Musique Synthesizer ---
+  // 3. Sauvegarde automatique des cases cochées (dans le navigateur)
+  const checkboxes = document.querySelectorAll('.bucket-item input[type="checkbox"]');
+  checkboxes.forEach((checkbox) => {
+    const savedState = localStorage.getItem(checkbox.id);
+    if (savedState === 'true') checkbox.checked = true;
+
+    checkbox.addEventListener('change', (e) => {
+      localStorage.setItem(e.target.id, e.target.checked);
+    });
+  });
+
+  // 4. Synthesizer Musique Douce
   let audioCtx = null;
   let isPlaying = false;
   const audioBtn = document.getElementById('audioBtn');
@@ -69,24 +72,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function playSoftTune() {
     if (!isPlaying) return;
-    const notes = [261.63, 329.63, 392.00, 523.25, 440.00, 349.23, 392.00];
-    const selectedNote = notes[Math.floor(Math.random() * notes.length)];
+    const freqs = [261.63, 329.63, 392.00, 523.25, 440.00, 349.23];
+    const freq = freqs[Math.floor(Math.random() * freqs.length)];
     
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
     
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(selectedNote, audioCtx.currentTime);
-    
-    gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2);
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.025, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.2);
     
     osc.connect(gain);
     gain.connect(audioCtx.destination);
     
     osc.start();
-    osc.stop(audioCtx.currentTime + 2);
+    osc.stop(audioCtx.currentTime + 2.2);
     
-    setTimeout(playSoftTune, 800);
+    setTimeout(playSoftTune, 900);
   }
 });
