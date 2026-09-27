@@ -3,87 +3,141 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Notre Espace Intime 🍵🎀</title>
+  <title>Notre Histoire 💖</title>
   
+  <!-- Polices Google Fonts (Poppins & Playfair Display pour le côté élégant) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
-<body data-theme="matcha">
+<body>
 
-  <!-- Barre de Contrôle Personnalisable (visible pour toi) -->
-  <aside class="admin-panel" id="adminPanel">
-    <div class="panel-header">
-      <span>🎨 Personnaliser l'Espace</span>
-      <button id="togglePanelBtn">⚙️ Modificateurs</button>
-    </div>
-    
-    <div class="panel-content" id="panelContent">
+  <!-- Arrière-plan dynamique avec bulles / cœurs flottants -->
+  <div class="hearts-container" id="heartsContainer"></div>
+
+  <!-- Panneau de Personnalisation / Édition -->
+  <aside class="settings-panel" id="settingsPanel">
+    <button class="panel-toggle-btn" id="togglePanelBtn" title="Personnaliser le site">
+      ⚙️ <span>Éditer</span>
+    </button>
+    <div class="panel-content">
+      <h3>🎨 Personnalisation</h3>
+      <p class="panel-subtitle">Modifie le contenu instantanément :</p>
+      
       <div class="control-group">
-        <label>Thème de Couleurs :</label>
-        <select id="themeSelect">
-          <option value="matcha">🍵 Matcha & Cream (Vert Doux)</option>
-          <option value="hellokitty">🎀 Hello Kitty Soft (Rose Pastel)</option>
-          <option value="romantic">💖 Nuit Romantique (Prune / Rose)</option>
-        </select>
+        <label for="inputTitle">Titre principal :</label>
+        <input type="text" id="inputTitle" placeholder="Notre Histoire D'amour">
       </div>
 
       <div class="control-group">
-        <label>Musique d'ambiance :</label>
-        <select id="musicSelect">
-          <option value="lofi">🍵 Lofi Soft Matcha</option>
-          <option value="piano">🎹 Piano Romantique</option>
-          <option value="ambient">✨ Douceur Relaxante</option>
-        </select>
+        <label for="inputSubtitle">Sous-titre / Surnom :</label>
+        <input type="text" id="inputSubtitle" placeholder="Pour ma personne préférée 🌹">
       </div>
 
       <div class="control-group">
-        <label>Ajouter une photo souvenir :</label>
-        <input type="file" id="photoInput" accept="image/*">
+        <label for="inputMessage">Lettre / Message romantique :</label>
+        <textarea id="inputMessage" rows="5" placeholder="Écris ton mot doux ici..."></textarea>
       </div>
+
+      <div class="control-group">
+        <label for="photoUploader">Ajouter des photos souvenirs :</label>
+        <input type="file" id="photoUploader" accept="image/*" multiple>
+      </div>
+
+      <button class="btn-primary" id="saveSettingsBtn">Enregistrer les modifications</button>
     </div>
   </aside>
 
-  <!-- Lecteur Audio Romantique -->
-  <button class="audio-player-btn" id="audioToggle">
-    <span id="musicIcon">🎵</span>
-    <span id="musicTitle">Lancer la musique</span>
-  </button>
+  <!-- Conteneur Principal -->
+  <main class="app-layout">
 
-  <main class="app-container">
-    
-    <!-- En-tête -->
-    <header class="main-header">
-      <div class="avatar-box">
-        <img src="https://upload.wikimedia.org/wikipedia/en/0/05/Hello_kitty_character_art.png" alt="Hello Kitty" class="avatar-img">
-      </div>
-      <h1 class="editable-text" contenteditable="true" id="mainTitle">Notre Petit Cocon 🍵🎀</h1>
-      <p class="editable-text tagline" contenteditable="true" id="subTitle">Clique sur n'importe quel texte pour le modifier directement !</p>
+    <!-- En-tête / Hero Section -->
+    <header class="hero-card glass">
+      <div class="badge-tag">✨ Notre Espace Préféré</div>
+      <h1 class="main-title" id="displayTitle">Notre Histoire D'amour</h1>
+      <p class="sub-title" id="displaySubtitle">Pour la plus merveilleuse des personnes 🌹</p>
     </header>
 
-    <!-- Section Déclaration / Mot Doux -->
-    <section class="custom-card">
-      <div class="card-tag">💌 Pour toi</div>
-      <div class="editable-text love-letter" contenteditable="true" id="loveLetterText">
-        Écris ton message personnalisé ici... Par exemple : "Mon amour, j'ai créé ce petit espace spécialement pour nous deux, plein de douceur, de matcha et de Hello Kitty."
+    <!-- Section Message Romantique -->
+    <section class="letter-card glass">
+      <div class="card-header">
+        <h2>💌 Un mot pour toi</h2>
+      </div>
+      <div class="letter-body">
+        <p id="displayMessage">
+          Mon amour, j'ai créé ce petit endroit rien que pour nous. Un espace où nous pouvons réunir nos plus beaux souvenirs, écouter nos musiques préférées et se rappeler à quel point chaque moment passé à tes côtés est précieux. Je t'aime infiniment.
+        </p>
       </div>
     </section>
 
-    <!-- Galerie Photo Personnalisable -->
-    <section class="custom-card">
-      <div class="card-tag">📸 Nos Souvenirs</div>
-      <p class="card-hint">Utilise le panneau en haut à droite pour importer tes propres photos !</p>
-      
-      <div class="photo-gallery" id="photoGallery">
-        <!-- Vos photos ajoutées s'afficheront ici -->
+    <!-- Section Galerie Souvenirs -->
+    <section class="gallery-card glass">
+      <div class="card-header">
+        <h2>📸 Nos Plus Beaux Moments</h2>
+        <p class="section-desc">Clique sur le bouton Éditer pour importer tes photos depuis ton appareil !</p>
       </div>
+      
+      <div class="photo-grid" id="photoGrid">
+        <!-- Emplacements de photos par défaut -->
+        <div class="photo-item">
+          <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=600&q=80" alt="Souvenir 1">
+          <span class="photo-caption">Nos balades ❤️</span>
+        </div>
+        <div class="photo-item">
+          <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=600&q=80" alt="Souvenir 2">
+          <span class="photo-caption">Moments de douceur ☕</span>
+        </div>
+        <div class="photo-item">
+          <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=600&q=80" alt="Souvenir 3">
+          <span class="photo-caption">Rires & Complicité ✨</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lecteur Audio Intégré -->
+    <section class="player-card glass">
+      <div class="player-content">
+        <div class="album-art-wrapper">
+          <img id="trackCover" src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=300&q=80" alt="Pochette Album" class="album-art">
+        </div>
+
+        <div class="track-details">
+          <h3 id="trackTitle" class="track-title">Chargement...</h3>
+          <p id="trackArtist" class="track-artist">Artiste</p>
+
+          <!-- Barre de progression -->
+          <div class="progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+          <div class="time-stamps">
+            <span id="currentTime">0:00</span>
+            <span id="durationTime">0:00</span>
+          </div>
+
+          <!-- Contrôles du Lecteur -->
+          <div class="player-controls">
+            <button class="ctrl-btn" id="prevBtn" title="Précédent">⏮️</button>
+            <button class="ctrl-btn main-play-btn" id="playBtn" title="Lecture/Pause">▶️</button>
+            <button class="ctrl-btn" id="nextBtn" title="Suivant">⏭️</button>
+          </div>
+
+          <!-- Contrôle du Volume -->
+          <div class="volume-container">
+            <span>🔈</span>
+            <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.8">
+            <span>🔊</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Élément Audio Caché -->
+      <audio id="audioPlayer"></audio>
     </section>
 
   </main>
 
-  <script src="js/script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
-

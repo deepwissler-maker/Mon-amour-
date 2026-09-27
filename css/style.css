@@ -1,39 +1,26 @@
 /* ==========================================================================
-   THEMES DYNAMIQUES : MATCHA, HELLO KITTY & ROMANTIQUE
+   VARIABLES & DESIGN SYSTEM ROMANTIQUE ELEGANT
    ========================================================================== */
 :root {
-  --font-title: 'Fredoka', cursive, sans-serif;
-  --font-body: 'Nunito', sans-serif;
-}
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Poppins', sans-serif;
 
-/* Thème Matcha */
-body[data-theme="matcha"] {
-  --bg-color: #fefae0;
-  --accent-color: #a3b18a;
-  --accent-dark: #588157;
-  --card-bg: #ffffff;
-  --text-color: #3a405a;
-  --tag-bg: #e9edc9;
-}
+  /* Palette de couleurs */
+  --rose-passion: #e63946;
+  --rose-poudre: #ffb7c5;
+  --rose-soft: #fff0f3;
+  --blanc-casse: #fdfbf7;
+  --texte-sombre: #2b2d42;
+  --texte-soft: #6c757d;
 
-/* Thème Hello Kitty */
-body[data-theme="hellokitty"] {
-  --bg-color: #fff0f3;
-  --accent-color: #ffb7c5;
-  --accent-dark: #ff6b8b;
-  --card-bg: #ffffff;
-  --text-color: #4a4e69;
-  --tag-bg: #ffccd5;
-}
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.8);
+  --glass-shadow: 0 15px 35px rgba(230, 57, 70, 0.08);
 
-/* Thème Romantique */
-body[data-theme="romantic"] {
-  --bg-color: #f3e8ee;
-  --accent-color: #c9ada7;
-  --accent-dark: #9a8c98;
-  --card-bg: #ffffff;
-  --text-color: #22223b;
-  --tag-bg: #e2afff;
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 * {
@@ -44,175 +31,368 @@ body[data-theme="romantic"] {
 
 body {
   font-family: var(--font-body);
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 50%, #ffb7c5 100%);
+  color: var(--texte-sombre);
   min-height: 100vh;
-  padding: 20px 15px;
-  transition: background-color 0.3s ease;
+  padding: 30px 15px;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* Panneau Admin / Personnalisation */
-.admin-panel {
+/* Animations d'Arrière-plan (Pluie de Cœurs) */
+.hearts-container {
   position: fixed;
-  top: 15px;
-  right: 15px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.floating-heart {
+  position: absolute;
+  bottom: -20px;
+  color: var(--rose-passion);
+  opacity: 0.6;
+  font-size: 1.2rem;
+  animation: floatUp 8s linear infinite;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-110vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Panneau de Paramètres / Édition */
+.settings-panel {
+  position: fixed;
+  top: 20px;
+  right: 20px;
   z-index: 1000;
-  background: var(--card-bg);
-  border: 2px solid var(--accent-dark);
-  border-radius: 16px;
-  padding: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  max-width: 280px;
-}
-
-.panel-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: 800;
-  font-size: 0.9rem;
-  gap: 10px;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
-#togglePanelBtn {
-  background: var(--accent-color);
-  border: none;
-  padding: 4px 8px;
-  border-radius: 8px;
+.panel-toggle-btn {
+  background: var(--blanc-casse);
+  color: var(--texte-sombre);
+  border: 1.5px solid var(--rose-poudre);
+  padding: 10px 18px;
+  border-radius: 30px;
+  font-family: var(--font-body);
+  font-weight: 600;
   cursor: pointer;
-  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: var(--transition-smooth);
+}
+
+.panel-toggle-btn:hover {
+  transform: translateY(-2px);
+  background: #ffffff;
 }
 
 .panel-content {
   display: none;
-  margin-top: 12px;
-  flex-direction: column;
-  gap: 10px;
+  width: 320px;
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  padding: 20px;
+  margin-top: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  border: 1px solid var(--rose-poudre);
 }
 
 .panel-content.open {
   display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.panel-content h3 {
+  font-family: var(--font-heading);
+  color: var(--rose-passion);
+}
+
+.panel-subtitle {
+  font-size: 0.8rem;
+  color: var(--texte-soft);
 }
 
 .control-group {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  font-size: 0.82rem;
-  font-weight: 700;
+  font-size: 0.85rem;
+  font-weight: 600;
 }
 
-.control-group select, .control-group input {
-  padding: 6px;
+.control-group input, .control-group textarea {
+  width: 100%;
+  padding: 8px 12px;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   font-family: var(--font-body);
+  font-size: 0.85rem;
+  outline: none;
 }
 
-/* Bouton Musique */
-.audio-player-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: var(--accent-dark);
-  color: white;
+.control-group input:focus, .control-group textarea:focus {
+  border-color: var(--rose-passion);
+}
+
+.btn-primary {
+  background: var(--rose-passion);
+  color: #ffffff;
   border: none;
-  padding: 12px 20px;
-  border-radius: 30px;
-  font-weight: 800;
+  padding: 10px;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  z-index: 900;
+  margin-top: 5px;
+  transition: var(--transition-smooth);
 }
 
-/* Layout */
-.app-container {
-  max-width: 500px;
-  margin: 60px auto 40px;
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+/* Application Layout */
+.app-layout {
+  position: relative;
+  z-index: 1;
+  max-width: 650px;
+  margin: 40px auto 20px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 }
 
-.main-header {
+/* Glassmorphism Reusable Style */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--glass-shadow);
+}
+
+/* Hero Card */
+.hero-card {
   text-align: center;
 }
 
-.avatar-box {
-  width: 90px;
-  height: 90px;
-  margin: 0 auto 10px;
-  background: var(--tag-bg);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.avatar-img {
-  width: 65px;
-}
-
-/* Cartes & Zones de texte modifiables */
-.custom-card {
-  background: var(--card-bg);
+.badge-tag {
+  display: inline-block;
+  background: rgba(230, 57, 70, 0.1);
+  color: var(--rose-passion);
+  padding: 4px 14px;
   border-radius: 20px;
-  padding: 20px;
-  position: relative;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-  border: 2px solid var(--tag-bg);
-}
-
-.card-tag {
-  position: absolute;
-  top: -12px;
-  left: 15px;
-  background: var(--tag-bg);
-  padding: 2px 10px;
-  border-radius: 10px;
-  font-weight: 800;
-  font-size: 0.85rem;
-}
-
-.card-hint {
   font-size: 0.8rem;
-  color: #888;
-  margin-top: 5px;
+  font-weight: 600;
   margin-bottom: 12px;
 }
 
-.editable-text {
-  outline: none;
-  padding: 4px;
-  border-radius: 6px;
-  transition: background 0.2s ease;
+.main-title {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  color: var(--texte-sombre);
+  margin-bottom: 6px;
+  line-height: 1.2;
 }
 
-.editable-text:hover, .editable-text:focus {
-  background: rgba(0,0,0,0.03);
-  box-shadow: 0 0 0 2px var(--accent-color);
-}
-
-.love-letter {
-  min-height: 80px;
-  line-height: 1.6;
+.sub-title {
+  color: var(--rose-passion);
+  font-weight: 500;
   font-size: 1rem;
 }
 
-/* Galerie Photo */
-.photo-gallery {
+/* Letter Card */
+.letter-card h2, .gallery-card h2 {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  color: var(--texte-sombre);
+  margin-bottom: 12px;
+}
+
+.letter-body {
+  line-height: 1.7;
+  color: #4a4e69;
+  font-size: 0.98rem;
+  white-space: pre-line;
+}
+
+/* Galerie Photos */
+.section-desc {
+  font-size: 0.82rem;
+  color: var(--texte-soft);
+  margin-bottom: 16px;
+}
+
+.photo-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px;
 }
 
 .photo-item {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  height: 180px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: var(--transition-smooth);
+}
+
+.photo-item:hover {
+  transform: translateY(-4px);
+}
+
+.photo-item img {
   width: 100%;
-  height: 140px;
-  border-radius: 12px;
+  height: 100%;
   object-fit: cover;
-  border: 2px solid var(--tag-bg);
+}
+
+.photo-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.7));
+  color: #ffffff;
+  font-size: 0.75rem;
+  padding: 12px 8px 6px;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Lecteur Audio */
+.player-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.album-art-wrapper {
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+.album-art {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.track-details {
+  flex-grow: 1;
+}
+
+.track-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  color: var(--texte-sombre);
+}
+
+.track-artist {
+  font-size: 0.85rem;
+  color: var(--texte-soft);
+  margin-bottom: 10px;
+}
+
+.progress-container {
+  width: 100%;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--rose-passion);
+  border-radius: 10px;
+  transition: width 0.1s linear;
+}
+
+.time-stamps {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--texte-soft);
+  margin-top: 4px;
+  margin-bottom: 10px;
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.ctrl-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.ctrl-btn:hover {
+  transform: scale(1.15);
+}
+
+.main-play-btn {
+  font-size: 1.6rem;
+}
+
+.volume-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+}
+
+.volume-container input[type="range"] {
+  width: 100%;
+  accent-color: var(--rose-passion);
+  cursor: pointer;
+}
+
+/* Responsive Tablette & Mobile */
+@media (max-width: 580px) {
+  .player-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .album-art-wrapper {
+    width: 120px;
+    height: 120px;
+  }
+
+  .main-title {
+    font-size: 1.8rem;
+  }
 }
